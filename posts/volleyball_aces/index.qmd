@@ -29,7 +29,7 @@ ggplot() +
 Maryland volleyball has far worse deficiencies than service aces, but didn't have any singular standout in that category. None of the Terps' three-player committee — Sam Csire, Erin Engal and Lilly Gunter — have separated themselves from the pack. Likewise, Maryland has struggled to separate itself from the middle and bottom of its conference.
 
 ```{r}
-library(tidyverse)
+suppressPackageStartupMessages(library(tidyverse))
 library(janitor)
 #install.packages("ggbeeswarm")
 library(ggbeeswarm)
