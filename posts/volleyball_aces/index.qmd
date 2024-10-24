@@ -1,0 +1,70 @@
+---
+title: "Volleyball Aces"
+author: "Eli Cohen"
+date: '2024-10-24'
+format: 
+  html:
+    code-fold: true
+---
+```{r}
+ggplot() + 
+  geom_quasirandom(
+    data=top_aces, 
+    groupOnX=TRUE, 
+    aes(x=pos, y=aces_per_match), color="grey") + 
+  geom_quasirandom(
+    data=umd, 
+    groupOnX=TRUE, 
+    aes(x=pos, y=aces_per_match), color="red") +
+  geom_text_repel(
+    data=umd, 
+    aes(x=pos, y=aces_per_match, label=roster_name)) +
+ labs(
+    title="Maryland volleyball lacked a top serving threat in 2023", 
+    subtitle = "The Terps were near the middle of the Big Ten in aces, but did so by committee",
+    x="Position", 
+    y="Aces Per Match") + 
+  theme_minimal() 
+```
+Maryland volleyball has far worse deficiencies than service aces, but didn't have any singular standout in that category. None of the Terps' three-player committee — Sam Csire, Erin Engal and Lilly Gunter — have separated themselves from the pack. Likewise, Maryland has struggled to separate itself from the middle and bottom of its conference.
+
+```{r}
+library(tidyverse)
+library(janitor)
+#install.packages("ggbeeswarm")
+library(ggbeeswarm)
+library(ggrepel)
+```
+```{r}
+set.seed(1234)
+```
+
+```{r}
+data <- read_csv("https://raw.githubusercontent.com/dwillis/NCAAWomensVolleyballData/main/data/ncaa_womens_volleyball_playerstats_2023.csv") |> clean_names() 
+
+```
+```{r}
+filtered_data <- data |>
+filter(gp>=20, !is.na(aces), !is.na(pos)) |>
+mutate(aces_per_match= aces/gp)
+```
+
+```{r}
+summary(filtered_data$aces_per_match)
+```
+
+```{r}
+top_aces <- filtered_data |>
+filter(aces_per_match>=0.8529)
+```
+
+```{r}
+ggplot() + geom_beeswarm(data=top_aces, aes(x=pos, y=aces_per_match), color="grey")
+```
+```{r}
+umd <- top_aces |> 
+  filter(team == "Maryland Terrapins, Terps") |> 
+  filter(aces_per_match>=0.8529) |> 
+  arrange(desc(aces_per_match))
+```
+
