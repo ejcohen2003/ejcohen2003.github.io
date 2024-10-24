@@ -1,0 +1,18 @@
+```{r}
+library(tidyverse)
+install.packages("cfbfastR")
+library(cfbfastR)
+```
+
+```{r}
+pbp <- load_cfb_pbp(
+  seasons = 2015:2024,
+  dbConnection = NULL,
+  tablename = NULL
+)
+```
+
+```{r}
+third_and_six <- pbp |>
+  filter(c(down == "3", distance == "6"))
+```

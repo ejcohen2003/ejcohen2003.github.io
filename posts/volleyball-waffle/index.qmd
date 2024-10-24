@@ -1,0 +1,78 @@
+---
+title: "Volleyball!"
+author: "Eli Cohen"
+date: '2024-10-11'
+format: 
+  html:
+    code-fold: true
+---
+
+```{r}
+library(tidyverse)
+#install.packages("waffle")
+library(waffle)
+```
+
+```{r}
+matches_2024 <- read_csv("https://raw.githubusercontent.com/dwillis/NCAAWomensVolleyballData/main/data/ncaa_womens_volleyball_matchstats_2024.csv")
+```
+
+```{r}
+md <- matches_2024 |>
+  filter(team == "Maryland") |>
+  group_by(team)|>
+  summarize(total_kills=sum(kills),
+            total_blocks=sum(block_assists)+sum(block_solos),
+            total_aces=sum(aces),
+            total_opp_err=sum(defensive_errors)
+)
+```
+
+```{r}
+nebraska <- matches_2024 |>
+  filter(team == "Nebraska") |>
+  group_by(team)|>
+  summarize(total_kills=sum(kills),
+            total_blocks=sum(block_assists)+sum(block_solos),
+            total_aces=sum(aces),
+            total_opp_err=sum(defensive_errors)
+)
+```
+
+```{r}
+md <- c("Kills"=714, "Blocks"=253, "Aces"=127, "Opponent Errors"=323)
+nb <- c("Kills"=701, "Blocks"=254, "Aces"=71, "Opponent Errors"=283, 108)
+```
+
+```{r}
+iron(
+ waffle(md/5, 
+        rows = 5, 
+        title="Maryland volleyball is racking up aces", 
+        xlab="1 square = 5 times for each stat", 
+        colors = c("red", "black", "grey", "gold")
+        ),
+ waffle(nb/5, 
+        rows = 5, 
+        title="Nebraska? not so much", 
+        xlab="1 square = 5 times for each stat",
+        colors = c("red", "black", "grey","gold", "white")
+        )
+)
+```
+
+The largest discrepancy between Maryland and Nebraska volleyball is that Maryland is out-acing Nebraska by a very wide margin. However, we know that Nebraska has been a far better team than the Terps — something these numbers don't necessarily indicate. Perhaps that's because per set stats would be more representative of success than totals, or maybe these stats just aren't that important. Nonetheless, Maryland can celebrate out-acing the powerhouse Cornhuskers and having comparable numbers across the board. That is until the teams actually face off on the court on Nov. 30 — and it's unlikely there will be much to celebrate then.
+
+TESTING UPDATE
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
